@@ -1,11 +1,20 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
+import { Image, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import {ScrollView, ScrollViewComponent} from "react-native";
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Button, TextInput, Grid, Avatar } from '@/components'; 
+
+
+import React from 'react';
 
 export default function HomeScreen() {
+
+  const [visible, setVisible] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState('');
+
+  const onToggleSnackBar = () => setVisible(!visible);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,35 +25,40 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">Bem vindo!</ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
+        <ThemedText type="subtitle">Exercício 1 - Botão</ThemedText>
+        <Button onPress={onToggleSnackBar} mode="contained">
+          {visible ? 'Hide' : 'Show'}
+        </Button>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
+        <ThemedText type="subtitle">Exercício 2 - Input</ThemedText>
+        <TextInput
+          label="Digite algo"
+          value={inputValue}
+          onChangeText={text => setInputValue(text)}
+        />
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        <ThemedText type="subtitle">Exercício 3 - Grid</ThemedText>
+        <Grid elevation={3} style={styles.gridContainer}>
+          <ThemedView style={styles.gridItem}><ThemedText>Item 1</ThemedText></ThemedView>
+          <ThemedView style={styles.gridItem}><ThemedText>Item 2</ThemedText></ThemedView>
+          <ThemedView style={styles.gridItem}><ThemedText>Item 3</ThemedText></ThemedView>
+        </Grid>
+      </ThemedView>
+
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Exercício 4 - Imagem</ThemedText>
+        <Avatar
+          source={require('@/assets/images/golfinho.jpg')}
+          size={100}
+        />
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -66,5 +80,18 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    padding: 8,
+  },
+  gridItem: {
+    width: '30%',
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    marginBottom: 8,
   },
 });
